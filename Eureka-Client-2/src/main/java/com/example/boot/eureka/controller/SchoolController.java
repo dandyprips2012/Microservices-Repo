@@ -2,6 +2,7 @@ package com.example.boot.eureka.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
+import org.springframework.cloud.netflix.ribbon.RibbonClient;
 import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
@@ -11,7 +12,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
+import com.example.boot.eureka.configuration.RBConfiguration;
+
 @RestController
+@RibbonClient(name="rbc", configuration=RBConfiguration.class)
 public class SchoolController {
 
 	@Autowired
@@ -22,7 +26,7 @@ public class SchoolController {
 	{
 		System.out.println("Getting School details for " + schoolname);
 
-		String response = restTemplate.exchange("http://student-service/getStudentDetailsForSchool/{schoolname}",
+		String response = restTemplate.exchange("http://rbc/getStudentDetailsForSchool/{schoolname}",
 				HttpMethod.GET, null, new ParameterizedTypeReference<String>() {}, schoolname).getBody();
 
 		System.out.println("Response Received as " + response);

@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,6 +17,9 @@ import com.example.boot.eureka.model.Student;
 public class StudentMSController {
 
 	 private static Map<String, List<Student>> schooDB = new HashMap<String, List<Student>>();
+	 
+	 @Value(value = "${user-name}")
+	 String name;
 	 
 	 static {
 	        schooDB = new HashMap<String, List<Student>>();
@@ -37,6 +41,10 @@ public class StudentMSController {
 	        schooDB.put("xyzschool", lst);
 	 
 	    }
+	 @RequestMapping("/")
+	 public String respond() {
+		 return name + " Alive";
+	 }
 	 
 	 @RequestMapping(value = "/getStudentDetailsForSchool/{schoolname}", method = RequestMethod.GET)
 	    public List<Student> getStudents(@PathVariable String schoolname) {

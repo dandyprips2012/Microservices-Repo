@@ -1,22 +1,13 @@
 server:
-  port: 9098    #port number
- 
-eureka:
-  instance:
-    leaseRenewalIntervalInSeconds: 1
-    leaseExpirationDurationInSeconds: 2
-  client:
-    serviceUrl:
-      defaultZone: http://127.0.0.1:8761/eureka/
-    healthcheck:
-      enabled: true
-    lease:
-      duration: 5
+  port: 9078    #port number
  
 spring:
   application:
     name: school-service    #service name
- 
-logging:
-  level:
-    com.example.boot.eureka: DEBUG
+    
+rbc:
+  ribbon:
+    eureka:
+      enabled: false
+    listOfServers: localhost:8098,localhost:9092,localhost:9999
+    ServerListRefreshInterval: 15000
